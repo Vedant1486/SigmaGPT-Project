@@ -1,87 +1,119 @@
 .sidebar {
     background-color: #171717;
-    color: #b4b4b4;
     height: 100vh;
-    width: 320px;
+    width: 260px;
+    min-width: 260px;
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
+    padding: 12px 8px;
+    gap: 8px;
 }
 
-
-button {
+.newChatBtn {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin: 10px;
-    padding: 10px;
-    border-radius: 5px;
+    padding: 10px 14px;
+    border-radius: 10px;
     background-color: transparent;
-    border: solid 0.5px rgba(255, 255, 255, 0.5);
+    border: 1px solid rgba(255, 255, 255, 0.1);
     cursor: pointer;
+    transition: background-color 0.15s ease;
+    width: 100%;
+}
+
+.newChatBtn:hover {
+    background-color: rgba(255, 255, 255, 0.07);
 }
 
 .logo {
-    height: 25px;
-    width: 25px;
+    height: 24px;
+    width: 24px;
     background-color: #fff;
     border-radius: 50%;
     object-fit: cover;
 }
 
-button span {
-    font-size: 20px;
+.newChatBtn span {
+    font-size: 18px;
+    color: #b4b4b4;
 }
 
-button:hover {
-    background-color: rgba(180, 180, 180, 0.05);
+.historyLabel {
+    font-size: 11px;
+    color: #6b6b6b;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    padding: 4px 10px;
+    margin-top: 8px;
 }
 
 .history {
-    margin: 10px;
-    padding: 10px;
-    height: 100%;
+    flex: 1;
+    overflow-y: auto;
+    padding: 0;
+    margin: 0;
+    scrollbar-width: thin;
+    scrollbar-color: rgba(255,255,255,0.1) transparent;
+}
+
+.history::-webkit-scrollbar {
+    width: 4px;
+}
+
+.history::-webkit-scrollbar-thumb {
+    background: rgba(255,255,255,0.1);
+    border-radius: 4px;
 }
 
 .history li {
     list-style-type: none;
     cursor: pointer;
-    padding: 2px 5px;
-    margin-bottom: 0.3rem;
-    font-size: 14px;
-    border: solid 10px transparent;
+    padding: 9px 12px;
+    margin-bottom: 2px;
+    font-size: 13.5px;
+    color: #c4c4c4;
+    border-radius: 8px;
     position: relative;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    transition: background-color 0.15s ease;
+    padding-right: 32px;
 }
 
 .history li:hover {
-    background-color: rgba(180, 180, 180, 0.05);
-    border-radius: 10px;
+    background-color: rgba(255, 255, 255, 0.07);
 }
 
-.sign {
-    padding: 10px;
-    margin: 10px;
-    font-size: 14px;
-    text-align: center;
-    border-top: solid 0.25px rgba(255, 255, 255, 0.5);
+.highlighted {
+    background-color: rgba(255, 255, 255, 0.09) !important;
+    color: #fff !important;
 }
 
 .fa-trash {
     opacity: 0;
     position: absolute;
-    right: 0;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 12px;
+    color: #888;
+    transition: opacity 0.15s ease, color 0.15s ease;
 }
 
 .history li:hover .fa-trash {
     opacity: 1;
-    color: #fff;
 }
 
 .fa-trash:hover {
     color: #f87171 !important;
 }
 
-.highlighted {
-    background-color: rgba(180, 180, 180, 0.05);
-    border-radius: 10px;
+.sign {
+    padding: 12px 10px;
+    font-size: 12px;
+    color: #555;
+    text-align: center;
+    border-top: 1px solid rgba(255, 255, 255, 0.07);
 }
