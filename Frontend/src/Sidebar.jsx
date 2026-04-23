@@ -4,11 +4,13 @@ import { MyContext } from "./MyContext.jsx";
 import { v1 as uuidv1 } from "uuid";
 
 function Sidebar() {
-    const { allThreads, setAllThreads, currThreadId, setNewChat, setPrompt, setReply, setCurrThreadId, setPrevChats } = useContext(MyContext);
+    const { allThreads, setAllThreads, currThreadId, setNewChat, setPrompt, setReply, setCurrThreadId, setPrevChats, token } = useContext(MyContext);
+
+    const headers = { "Authorization": `Bearer ${token}` };
 
     const getAllThreads = async () => {
         try {
-            const response = await fetch("http://localhost:8080/api/thread");
+            const response = await fetch("http://localhost:8080/api/thread", { headers });
             const res = await response.json();
             setAllThreads(res.map(t => ({ threadId: t.threadId, title: t.title })));
         } catch (err) {
@@ -31,7 +33,7 @@ function Sidebar() {
     const changeThread = async (newThreadId) => {
         setCurrThreadId(newThreadId);
         try {
-            const response = await fetch(`http://localhost:8080/api/thread/${newThreadId}`);
+            const response = await fetch(`http://localhost:8080/api/thread/${newThreadId}`, { headers });
             const res = await response.json();
             setPrevChats(res);
             setNewChat(false);
@@ -43,7 +45,7 @@ function Sidebar() {
 
     const deleteThread = async (threadId) => {
         try {
-            await fetch(`http://localhost:8080/api/thread/${threadId}`, { method: "DELETE" });
+            await fetch(`http://localhost:8080/api/thread/${threadId}`, { method: "DELETE", headers });
             setAllThreads(prev => prev.filter(t => t.threadId !== threadId));
             if (threadId === currThreadId) createNewChat();
         } catch (err) {

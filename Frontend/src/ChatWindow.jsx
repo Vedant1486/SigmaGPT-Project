@@ -5,7 +5,7 @@ import { useContext, useState, useEffect } from "react";
 import { ScaleLoader } from "react-spinners";
 
 function ChatWindow() {
-    const { prompt, setPrompt, reply, setReply, currThreadId, setPrevChats, setNewChat } = useContext(MyContext);
+    const { prompt, setPrompt, reply, setReply, currThreadId, setPrevChats, setNewChat, token, username, handleLogout } = useContext(MyContext);
     const [loading, setLoading] = useState(false);
     const [isOpen, setIsOpen] = useState(false);
 
@@ -17,7 +17,10 @@ function ChatWindow() {
         try {
             const response = await fetch("http://localhost:8080/api/chat", {
                 method: "POST",
-                headers: { "Content-Type": "application/json" },
+                headers: {
+                    "Content-Type": "application/json",
+                    "Authorization": `Bearer ${token}`
+                },
                 body: JSON.stringify({ message: prompt, threadId: currThreadId })
             });
             const res = await response.json();
@@ -50,9 +53,15 @@ function ChatWindow() {
 
             {isOpen && (
                 <div className="dropDown">
+                    <div className="dropDownItem username-item">
+                        <i className="fa-solid fa-circle-user"></i> {username}
+                    </div>
+                    <div className="dropDownDivider"></div>
                     <div className="dropDownItem"><i className="fa-solid fa-gear"></i> Settings</div>
                     <div className="dropDownItem"><i className="fa-solid fa-cloud-arrow-up"></i> Upgrade plan</div>
-                    <div className="dropDownItem"><i className="fa-solid fa-arrow-right-from-bracket"></i> Log out</div>
+                    <div className="dropDownItem logout" onClick={handleLogout}>
+                        <i className="fa-solid fa-arrow-right-from-bracket"></i> Log out
+                    </div>
                 </div>
             )}
 

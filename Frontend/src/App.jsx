@@ -1,17 +1,38 @@
 import './App.css';
+import { useState } from 'react';
+import { v1 as uuidv1 } from "uuid";
 import Sidebar from "./Sidebar.jsx";
 import ChatWindow from "./ChatWindow.jsx";
-import {MyContext} from "./MyContext.jsx";
-import { useState } from 'react';
-import {v1 as uuidv1} from "uuid";
+import Login from "./Login.jsx";
+import { MyContext } from "./MyContext.jsx";
 
 function App() {
+  const [token, setToken] = useState(localStorage.getItem("token") || null);
+  const [username, setUsername] = useState(localStorage.getItem("username") || "");
+
   const [prompt, setPrompt] = useState("");
   const [reply, setReply] = useState(null);
   const [currThreadId, setCurrThreadId] = useState(uuidv1());
-  const [prevChats, setPrevChats] = useState([]); //stores all chats of curr threads
+  const [prevChats, setPrevChats] = useState([]);
   const [newChat, setNewChat] = useState(true);
   const [allThreads, setAllThreads] = useState([]);
+
+  const handleAuth = (newToken, newUsername) => {
+    setToken(newToken);
+    setUsername(newUsername);
+  };
+
+  const handleLogout = () => {
+    localStorage.removeItem("token");
+    localStorage.removeItem("username");
+    setToken(null);
+    setUsername("");
+    setAllThreads([]);
+    setPrevChats([]);
+    setNewChat(true);
+  };
+
+  if (!token) return <Login onAuth={handleAuth} />;
 
   const providerValues = {
     prompt, setPrompt,
@@ -19,17 +40,19 @@ function App() {
     currThreadId, setCurrThreadId,
     newChat, setNewChat,
     prevChats, setPrevChats,
-    allThreads, setAllThreads
-  }; 
+    allThreads, setAllThreads,
+    token, username,
+    handleLogout
+  };
 
   return (
     <div className='app'>
       <MyContext.Provider value={providerValues}>
-          <Sidebar></Sidebar>
-          <ChatWindow></ChatWindow>
-        </MyContext.Provider>
+        <Sidebar />
+        <ChatWindow />
+      </MyContext.Provider>
     </div>
-  )
+  );
 }
 
-export default App
+export default App;

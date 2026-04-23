@@ -1,107 +1,75 @@
 import express from "express";
 import Thread from "../models/Thread.js";
 import getOpenAIAPIResponse from "../utils/openai.js";
+import authMiddleware from "../middleware/auth.js";
 
 const router = express.Router();
 
-//test
-router.post("/test", async(req, res) => {
-    try {
-        const thread = new Thread({
-            threadId: "abc",
-            title: "Testing New Thread2"
-        });
+// All routes require auth
+router.use(authMiddleware);
 
-        const response = await thread.save();
-        res.send(response);
-    } catch(err) {
-        console.log(err);
-        res.status(500).json({error: "Failed to save in DB"});
-    }
-});
-
-//Get all threads
-router.get("/thread", async(req, res) => {
+// Get all threads for current user
+router.get("/thread", async (req, res) => {
     try {
-        const threads = await Thread.find({}).sort({updatedAt: -1});
-        //descending order of updatedAt...most recent data on top
+        const threads = await Thread.find({ userId: req.userId }).sort({ updatedAt: -1 });
         res.json(threads);
-    } catch(err) {
-        console.log(err);
-        res.status(500).json({error: "Failed to fetch threads"});
+    } catch (err) {
+        res.status(500).json({ error: "Failed to fetch threads" });
     }
 });
 
-router.get("/thread/:threadId", async(req, res) => {
-    const {threadId} = req.params;
-
+// Get messages of a thread
+router.get("/thread/:threadId", async (req, res) => {
     try {
-        const thread = await Thread.findOne({threadId});
-
-        if(!thread) {
-            res.status(404).json({error: "Thread not found"});
-        }
-
+        const thread = await Thread.findOne({ threadId: req.params.threadId, userId: req.userId });
+        if (!thread) return res.status(404).json({ error: "Thread not found" });
         res.json(thread.messages);
-    } catch(err) {
-        console.log(err);
-        res.status(500).json({error: "Failed to fetch chat"});
+    } catch (err) {
+        res.status(500).json({ error: "Failed to fetch chat" });
     }
 });
 
+// Delete a thread
 router.delete("/thread/:threadId", async (req, res) => {
-    const {threadId} = req.params;
-
     try {
-        const deletedThread = await Thread.findOneAndDelete({threadId});
-
-        if(!deletedThread) {
-            res.status(404).json({error: "Thread not found"});
-        }
-
-        res.status(200).json({success : "Thread deleted successfully"});
-
-    } catch(err) {
-        console.log(err);
-        res.status(500).json({error: "Failed to delete thread"});
+        const deleted = await Thread.findOneAndDelete({ threadId: req.params.threadId, userId: req.userId });
+        if (!deleted) return res.status(404).json({ error: "Thread not found" });
+        res.json({ success: "Thread deleted" });
+    } catch (err) {
+        res.status(500).json({ error: "Failed to delete thread" });
     }
 });
 
-router.post("/chat", async(req, res) => {
-    const {threadId, message} = req.body;
-
-    if(!threadId || !message) {
-        res.status(400).json({error: "missing required fields"});
-    }
+// Send a message
+router.post("/chat", async (req, res) => {
+    const { threadId, message } = req.body;
+    if (!threadId || !message)
+        return res.status(400).json({ error: "Missing required fields" });
 
     try {
-        let thread = await Thread.findOne({threadId});
+        let thread = await Thread.findOne({ threadId, userId: req.userId });
 
-        if(!thread) {
-            //create a new thread in Db
+        if (!thread) {
             thread = new Thread({
                 threadId,
-                title: message,
-                messages: [{role: "user", content: message}]
+                userId: req.userId,
+                title: message.slice(0, 60),
+                messages: [{ role: "user", content: message }]
             });
         } else {
-            thread.messages.push({role: "user", content: message});
+            thread.messages.push({ role: "user", content: message });
         }
 
         const assistantReply = await getOpenAIAPIResponse(message);
-
-        thread.messages.push({role: "assistant", content: assistantReply});
+        thread.messages.push({ role: "assistant", content: assistantReply });
         thread.updatedAt = new Date();
 
         await thread.save();
-        res.json({reply: assistantReply});
-    } catch(err) {
+        res.json({ reply: assistantReply });
+    } catch (err) {
         console.log(err);
-        res.status(500).json({error: "something went wrong"});
+        res.status(500).json({ error: "Something went wrong" });
     }
 });
-
-
-
 
 export default router;
