@@ -1,5 +1,4 @@
-import { useState } from "react";
-import "./Login.css";
+import BASE_URL from "./api.js";
 
 function Login({ onAuth }) {
     const [isRegister, setIsRegister] = useState(false);
@@ -15,7 +14,7 @@ function Login({ onAuth }) {
 
         const endpoint = isRegister ? "register" : "login";
         try {
-            const res = await fetch(`http://localhost:8080/api/auth/${endpoint}`, {
+            const res = await fetch(`${BASE_URL}/api/auth/${endpoint}`, {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({ username, password })
