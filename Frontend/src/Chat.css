@@ -92,24 +92,6 @@
     width: 100%;
 }
 
-/* small AI avatar dot */
-.gptDiv::before {
-    content: "S";
-    flex-shrink: 0;
-    width: 28px;
-    height: 28px;
-    border-radius: 50%;
-    background: linear-gradient(135deg, #4f9eff, #1a6fd4);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 13px;
-    font-weight: 700;
-    color: #fff;
-    margin-right: 14px;
-    margin-top: 2px;
-}
-
 .gptContent {
     font-size: 16px;
     line-height: 1.8;
