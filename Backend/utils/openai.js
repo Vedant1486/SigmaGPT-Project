@@ -1,7 +1,7 @@
 import "dotenv/config";
 
 // Text-only model (fast, reliable)
-const TEXT_MODEL = "openai/gpt-oss-20b:free";
+const TEXT_MODEL = "nvidia/nemotron-3-super-120b-a12b:free";
 // Vision model (for image analysis)
 const VISION_MODEL = "google/gemma-4-26b-a4b-it:free";
 
