@@ -1,29 +1,28 @@
-/* full-width scroll — scrollbar at right edge */
+/* scroll container */
 .chatScrollOuter {
     flex: 1;
     width: 100%;
     overflow-y: auto;
     overflow-x: auto;
     scrollbar-width: thin;
-    scrollbar-color: rgba(255,255,255,0.06) transparent;
+    scrollbar-color: rgba(255,255,255,0.05) transparent;
     overscroll-behavior: contain;
 }
 
 .chatScrollOuter::-webkit-scrollbar { width: 4px; }
 .chatScrollOuter::-webkit-scrollbar-thumb {
-    background: rgba(255,255,255,0.08);
+    background: rgba(255,255,255,0.07);
     border-radius: 4px;
 }
 
 .chatArea {
     width: 100%;
-    max-width: 720px;
+    max-width: 740px;
     min-width: 0;
     margin: 0 auto;
-    padding: 24px 24px 16px;
+    padding: 32px 28px 24px;
     display: flex;
     flex-direction: column;
-    gap: 0;
 }
 
 /* welcome */
@@ -33,21 +32,21 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    gap: 8px;
+    gap: 12px;
     min-height: 60vh;
 }
 
 .welcomeScreen h1 {
-    font-size: 28px;
+    font-size: 30px;
     font-weight: 600;
     color: #ececec;
-    letter-spacing: -0.02em;
+    letter-spacing: -0.03em;
     margin: 0;
 }
 
 .welcomeScreen p {
     font-size: 16px;
-    color: #555;
+    color: #666;
     margin: 0;
 }
 
@@ -55,51 +54,72 @@
 .userDiv {
     display: flex;
     justify-content: flex-end;
-    padding: 16px 0 4px;
+    padding: 20px 0 2px;
 }
 
 .userBubble {
     display: flex;
     flex-direction: column;
     align-items: flex-end;
-    max-width: 70%;
+    max-width: 72%;
 }
 
 .userMsgWrap {
     display: flex;
     align-items: flex-end;
-    gap: 6px;
+    gap: 8px;
 }
 
 .userMessage {
-    background-color: #2f2f2f;
-    padding: 12px 18px;
-    border-radius: 18px 18px 4px 18px;
-    font-size: 17px;
-    line-height: 1.6;
-    color: #ececec;
+    background-color: #303030;
+    padding: 13px 20px;
+    border-radius: 20px 20px 5px 20px;
+    font-size: 16px;
+    line-height: 1.65;
+    color: #f0f0f0;
     word-break: break-word;
     margin: 0;
     font-weight: 400;
     letter-spacing: -0.01em;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.3);
 }
 
-/* GPT response */
+/* AI response */
 .gptDiv {
     display: flex;
     justify-content: flex-start;
-    padding: 16px 0 4px;
+    padding: 20px 0 2px;
     width: 100%;
 }
 
+/* small AI avatar dot */
+.gptDiv::before {
+    content: "S";
+    flex-shrink: 0;
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #4f9eff, #1a6fd4);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 13px;
+    font-weight: 700;
+    color: #fff;
+    margin-right: 14px;
+    margin-top: 2px;
+}
+
 .gptContent {
-    font-size: 17px;
-    line-height: 1.75;
-    color: #ececec;
+    font-size: 16px;
+    line-height: 1.8;
+    color: #e8e8e8;
     width: 100%;
     word-break: break-word;
     font-weight: 400;
     letter-spacing: -0.01em;
+    flex: 1;
+    min-width: 0;
 }
 
 .gptContent p { margin: 8px 0; }
@@ -107,19 +127,20 @@
 
 .gptContent h1, .gptContent h2, .gptContent h3,
 .gptContent h4, .gptContent h5 {
-    color: #f0f0f0;
-    margin: 20px 0 8px;
+    color: #f5f5f5;
+    margin: 22px 0 8px;
     font-weight: 600;
     line-height: 1.3;
+    letter-spacing: -0.02em;
 }
 
 .gptContent h1 { font-size: 24px; }
 .gptContent h2 { font-size: 20px; }
-.gptContent h3 { font-size: 18px; }
+.gptContent h3 { font-size: 17px; }
 
 .gptContent ul, .gptContent ol {
     padding-left: 24px;
-    margin: 8px 0;
+    margin: 10px 0;
 }
 
 .gptContent li {
@@ -129,86 +150,100 @@
 
 .gptContent hr {
     border: none;
-    border-top: 1px solid rgba(255,255,255,0.1);
-    margin: 20px 0;
+    border-top: 1px solid rgba(255,255,255,0.08);
+    margin: 22px 0;
 }
 
 .gptContent blockquote {
-    border-left: 3px solid rgba(255,255,255,0.2);
-    padding-left: 14px;
-    color: #aaa;
-    margin: 12px 0;
+    border-left: 3px solid rgba(255,255,255,0.18);
+    padding: 8px 14px;
+    color: #999;
+    margin: 14px 0;
     font-style: italic;
+    background: rgba(255,255,255,0.02);
+    border-radius: 0 6px 6px 0;
 }
 
-/* Tables */
+/* tables */
 .gptContent .table-wrapper {
     width: 100%;
     overflow-x: auto;
-    margin: 16px 0;
-    -webkit-overflow-scrolling: touch;
+    margin: 18px 0;
+    border-radius: 10px;
+    border: 1px solid rgba(255,255,255,0.08);
 }
 
 .gptContent table {
     border-collapse: collapse;
-    font-size: 15px;
+    font-size: 14px;
     width: max-content;
     min-width: 100%;
 }
 
+.gptContent thead {
+    background: rgba(255,255,255,0.04);
+}
+
 .gptContent th {
     font-weight: 600;
-    color: #ececec;
-    padding: 10px 20px;
-    border-bottom: 1px solid rgba(255,255,255,0.15);
+    color: #e0e0e0;
+    padding: 12px 18px;
+    border-bottom: 1px solid rgba(255,255,255,0.1);
     text-align: left;
     white-space: nowrap;
     min-width: 100px;
+    letter-spacing: 0.01em;
+    font-size: 13px;
+    text-transform: uppercase;
 }
 
 .gptContent td {
-    padding: 10px 20px;
-    border-bottom: 1px solid rgba(255,255,255,0.07);
-    color: #d4d4d4;
+    padding: 11px 18px;
+    border-bottom: 1px solid rgba(255,255,255,0.05);
+    color: #ccc;
     white-space: nowrap;
     min-width: 100px;
 }
 
 .gptContent tr:last-child td { border-bottom: none; }
+.gptContent tr:hover td { background: rgba(255,255,255,0.02); }
 
 /* code */
 .hljs {
-    border-radius: 8px !important;
-    font-size: 13px !important;
-    padding: 16px !important;
-    background: #1a1a1a !important;
+    border-radius: 10px !important;
+    font-size: 13.5px !important;
+    padding: 18px !important;
+    background: #161616 !important;
+    border: 1px solid rgba(255,255,255,0.06) !important;
 }
 
 pre {
-    margin: 12px 0;
+    margin: 14px 0;
     overflow-x: auto;
-    border-radius: 8px;
-    background: #1a1a1a;
+    border-radius: 10px;
+    background: #161616;
+    position: relative;
 }
 
 code:not(pre code) {
     background-color: rgba(255,255,255,0.07);
-    padding: 2px 6px;
-    border-radius: 4px;
+    padding: 2px 7px;
+    border-radius: 5px;
     font-size: 14px;
-    color: #e0e0e0;
-    font-family: monospace;
+    color: #a8d8ff;
+    font-family: "SF Mono", "Fira Code", "Consolas", monospace;
 }
 
 /* image */
 .chatImage {
-    max-width: 240px;
-    max-height: 180px;
-    border-radius: 10px;
+    max-width: 260px;
+    max-height: 200px;
+    border-radius: 12px;
     object-fit: cover;
     margin-bottom: 8px;
     border: 1px solid rgba(255,255,255,0.08);
     display: block;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.3);
 }
 
 /* edit */
@@ -218,39 +253,47 @@ code:not(pre code) {
     cursor: pointer;
     color: #555;
     font-size: 12px;
-    padding: 4px;
-    border-radius: 6px;
+    padding: 5px 6px;
+    border-radius: 7px;
     opacity: 0;
-    transition: opacity 0.15s, color 0.15s;
+    transition: opacity 0.15s, color 0.15s, background 0.15s;
     flex-shrink: 0;
+    margin-bottom: 2px;
 }
 
 .userBubble:hover .editBtn { opacity: 1; }
-.editBtn:hover { color: #aaa; }
+.editBtn:hover {
+    color: #ccc;
+    background: rgba(255,255,255,0.07);
+}
 
 .editBox {
     display: flex;
     flex-direction: column;
-    gap: 8px;
+    gap: 10px;
     width: 100%;
-    max-width: 480px;
+    max-width: 520px;
 }
 
 .editTextarea {
-    background-color: #2f2f2f;
-    border: 1px solid rgba(255,255,255,0.2);
-    border-radius: 14px;
-    padding: 10px 14px;
+    background-color: #303030;
+    border: 1px solid rgba(255,255,255,0.15);
+    border-radius: 16px;
+    padding: 12px 16px;
     font-size: 16px;
     color: #ececec;
     resize: none;
     outline: none;
     width: 100%;
-    line-height: 1.5;
+    line-height: 1.6;
     font-family: inherit;
+    transition: border-color 0.2s;
 }
 
-.editTextarea:focus { border-color: rgba(255,255,255,0.35); }
+.editTextarea:focus {
+    border-color: rgba(79,158,255,0.5);
+    box-shadow: 0 0 0 3px rgba(79,158,255,0.08);
+}
 
 .editActions {
     display: flex;
@@ -262,36 +305,43 @@ code:not(pre code) {
     background: #fff;
     color: #000;
     border: none;
-    border-radius: 8px;
-    padding: 6px 16px;
+    border-radius: 10px;
+    padding: 8px 20px;
     font-size: 14px;
     font-weight: 600;
     cursor: pointer;
-    transition: opacity 0.15s;
+    transition: opacity 0.15s, transform 0.1s;
 }
 
-.editSendBtn:hover { opacity: 0.85; }
+.editSendBtn:hover {
+    opacity: 0.88;
+    transform: translateY(-1px);
+}
 
 .editCancelBtn {
     background: transparent;
     color: #888;
     border: 1px solid rgba(255,255,255,0.1);
-    border-radius: 8px;
-    padding: 6px 14px;
+    border-radius: 10px;
+    padding: 8px 16px;
     font-size: 14px;
     cursor: pointer;
-    transition: color 0.15s;
+    transition: color 0.15s, border-color 0.15s;
 }
 
-.editCancelBtn:hover { color: #ccc; }
+.editCancelBtn:hover {
+    color: #ccc;
+    border-color: rgba(255,255,255,0.2);
+}
 
 @media (max-width: 768px) {
     .chatArea {
-        padding: 16px 16px 12px;
+        padding: 20px 16px 16px;
         max-width: 100%;
     }
 
-    .userMessage { font-size: 16px; }
-    .gptContent { font-size: 16px; }
-    .userBubble { max-width: 85%; }
+    .gptDiv::before { display: none; }
+    .userMessage { font-size: 15px; }
+    .gptContent { font-size: 15px; }
+    .userBubble { max-width: 88%; }
 }
